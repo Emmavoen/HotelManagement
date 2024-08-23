@@ -122,5 +122,10 @@ namespace HotelManagement.Application.Services
             var finalToken = new JwtSecurityTokenHandler().WriteToken(token);
             return finalToken;
         }
+
+        public async Task<> GetAllUsers()
+        {
+            
+        }
     }
 }

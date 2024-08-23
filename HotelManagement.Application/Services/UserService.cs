@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 using HotelManagement.Application.Contracts.Services;
+using HotelManagement.Application.Contracts.UnitOfWork;
 using HotelManagement.Application.Dtos.Request;
 using HotelManagement.Application.Helpers;
 using HotelManagement.Domain.Entities;
@@ -14,12 +15,14 @@ namespace HotelManagement.Application.Services
 {
     public class UserService : IUserService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
 
-        public UserService(RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IConfiguration configuration)
+        public UserService(IUnitOfWork unitOfWork,RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IConfiguration configuration)
         {
+            _unitOfWork = unitOfWork;
             _roleManager = roleManager;
             _userManager = userManager;
             _configuration = configuration;
@@ -74,7 +77,11 @@ namespace HotelManagement.Application.Services
             {
                 return "Bad Request";
             }
-
+        var roleExist = await _roleManager.RoleExistsAsync(role);
+        if(!roleExist)
+        {
+            return "Role Doest exist";
+        }
             var addRole = await _userManager.AddToRoleAsync(user, role);
             if(addRole.Succeeded)
             {
@@ -123,9 +130,35 @@ namespace HotelManagement.Application.Services
             return finalToken;
         }
 
-        public async Task<> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
-            
+            var allUsers = await _unitOfWork.UserRepository.GetAll();
+            return allUsers;
         }
+
+        public async Task<string> UpdateUser(UpdateUserDto requestDto)
+        {
+            var userExist = await _userManager.FindByIdAsync(requestDto.Id);
+            if(userExist == null)
+            {
+                return "Bad Request";
+            }
+
+            userExist.Email = requestDto.Email;
+            userExist.PhoneNumber = requestDto.PhoneNumber;
+            userExist.UserName = requestDto.UserName;
+
+             _unitOfWork.UserRepository.UpdateASync(userExist);
+            var save = await _unitOfWork.Save();
+            if(save > 0)
+            {
+                return "Update Successfull";
+            }
+
+            return "Something went wrong";
+        }
+
+
     }
+    
 }

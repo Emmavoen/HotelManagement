@@ -59,5 +59,18 @@ namespace HotelManagement.Api.Controllers
         {
             return Ok(await _userService.Login(userName,password));
         }
+
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            return Ok(await _userService.GetAllUsers());
+        }
+
+        [HttpPut("UpdateUser")]
+        public async Task<IActionResult> UpdateUser(UpdateUserDto updateUser)
+        {
+            return Ok(await _userService.UpdateUser(updateUser));
+        }
+
     }
 }

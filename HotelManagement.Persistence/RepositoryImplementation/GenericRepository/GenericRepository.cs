@@ -31,7 +31,14 @@ namespace HotelManagement.Persistence.RepositoryImplementation.GenericRepository
             _dbSet.Remove(existing);
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<T>> GetAll()
+        {
+            var result = await _dbSet.ToListAsync();
+           // await appDbContext.SaveChangesAsync();
+            return result;
+        }
+
+        public async Task<IEnumerable<T>> GetAllByColumn(Expression<Func<T, bool>> predicate)
         {
             return await _dbSet.Where(predicate).ToListAsync();
         }
@@ -41,7 +48,7 @@ namespace HotelManagement.Persistence.RepositoryImplementation.GenericRepository
             return await _dbSet.FirstOrDefaultAsync(predicate);
         }
 
-        public void UpdateASync(T entity)
+        public  void UpdateASync(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
 

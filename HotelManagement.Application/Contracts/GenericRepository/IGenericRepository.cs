@@ -9,9 +9,10 @@ namespace HotelManagement.Application.Contracts.GenericRepository
     public interface IGenericRepository<T> where T : class
     {
         Task<T> GetByColumnAsync(Expression<Func<T, bool>> predicate);
-        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
+        Task<IEnumerable<T>> GetAllByColumn(Expression<Func<T, bool>> predicate);
         Task DeleteAsync(int id);
         void UpdateASync(T entity);
         Task<T> AddAsync(T entity);
+        Task<IEnumerable<T>> GetAll();
     }
 }

@@ -10,7 +10,7 @@ namespace HotelManagement.Domain.Entities
         public bool IsActive { get; set; }
 
         public ICollection<State> States { get; set; }
-        public ICollection<Guest> Guests { get; set; }
+        public ICollection<User> Users { get; set; }
 
     }
 }

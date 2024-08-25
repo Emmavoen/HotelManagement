@@ -10,6 +10,6 @@ namespace HotelManagement.Domain.Entities
         public bool IsActive { get; set; }
         public int CountryId { get; set; }
         public Country Country { get; set; }
-        public ICollection<Guest> Guests { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

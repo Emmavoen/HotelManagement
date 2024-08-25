@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace HotelManagement.Domain.Entities
 {
     public class Amenity
@@ -6,7 +8,7 @@ namespace HotelManagement.Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public string IsActive { get; set; }
-        
+        public ICollection<Room> Rooms { get; set; }
 
     }
 }

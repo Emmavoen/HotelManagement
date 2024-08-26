@@ -11,7 +11,8 @@ namespace HotelManagement.Domain.Entities
         public string DateCreated { get; set; }
         public string RoomTypeId { get; set; }
         public RoomType RoomType { get; set; }
-        public ICollection<Amenity> Amenities { get; set; }
-        public ICollection<Booking> Bookings { get; set; }
+        public int RoomAmenityId { get; set; }
+        public RoomAmenity RoomAmenity { get; set; } //Room Amenity
+        public Booking Booking { get; set; }// is it possible
     }
 }

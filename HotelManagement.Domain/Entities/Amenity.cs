@@ -8,7 +8,11 @@ namespace HotelManagement.Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public string IsActive { get; set; }
-        public ICollection<Room> Rooms { get; set; }
+        public int RoomAmenityId { get; set; }
+        public RoomAmenity RoomAmenity { get; set; }
+        //public ICollection<Room> Rooms { get; set; }
 
     }
+
+
 }

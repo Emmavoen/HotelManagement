@@ -11,6 +11,18 @@ namespace HotelManagement.Application.Contracts.UnitOfWork
         //IPostRepository PostRepository{ get; }
         //IBlogRepository BlogRepository{ get; }
         IUserRepository UserRepository{ get; }
+        IAmenityRepository AmenityRepository{ get; }
+        IBookingRepository BookingRepository { get; }
+        IFeedbackRepository FeedbackRepository{ get; }
+        IInvoinceRepository InvoinceRepository{ get; }
+        IPaymentRepository PaymentRepository { get; }
+        IRefundRepository RefundRepository{ get; }
+        IRefundMethodRepository RefundMethodRepository { get; }
+        IRoomRepository RoomRepository  { get; }
+        IRoomTypeRepository RoomTypeRepository{ get; }
+        IServiceRepository ServiceRepository{ get; }
+
+
 
         Task<int> Save();
     }

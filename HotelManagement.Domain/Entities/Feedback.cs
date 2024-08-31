@@ -13,7 +13,7 @@ namespace HotelManagement.Domain.Entities
     public DateTime DateSubmitted { get; set; }
 
     // Foreign Keys
-    public int UserId { get; set; }
+    public string UserId { get; set; }
     public User User { get; set; }
 
     //public int BookingId { get; set; }

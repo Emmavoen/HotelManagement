@@ -10,12 +10,14 @@ namespace HotelManagement.Persistence.Configuration
         {
              builder.HasKey(rt => rt.Id);
 
-        builder.Property(rt => rt.Name)
+        builder.Property(rt => rt.TypeName)
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(rt => rt.Description)
+        builder.Property(rt => rt.Description).IsRequired()
             .HasMaxLength(500);
+
+            
         }
     }
 }

@@ -5,12 +5,11 @@ using HotelManagement.Persistence.RepositoryImplementation.GenericRepository;
 
 namespace HotelManagement.Persistence.RepositoryImplementation.Repository
 {
-    public class ServiceRepository : GenericRepository<Service> , IServiceRepository
+    public class RoomAmenityRepository : GenericRepository<RoomAmenity>, IRoomAmenityRepository
     {
-        public ServiceRepository(AppDbContext _context) : base(_context)
+        public RoomAmenityRepository(AppDbContext _context) : base(_context)
         {
             
         }
     }
-
 }

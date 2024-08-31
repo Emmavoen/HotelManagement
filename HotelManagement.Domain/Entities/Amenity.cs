@@ -14,5 +14,19 @@ namespace HotelManagement.Domain.Entities
 
     }
 
+    public class ResDto
+    {
+        public int Id { get; set;}
+        public string RoomId {get; set;}
+        public List<RAmenities> RoomAnmenities {get; set;}
+
+    }
+
+    public class RAmenities
+    {
+        public int Id { get; set;}
+        public string Name {get; set;}
+    }
+
 
 }

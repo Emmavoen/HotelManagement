@@ -5,9 +5,9 @@ using HotelManagement.Persistence.RepositoryImplementation.GenericRepository;
 
 namespace HotelManagement.Persistence.RepositoryImplementation.Repository
 {
-    public class InvoiceRepository : GenericRepository<Invoice> , IInvoinceRepository
+    public class StateRepository : GenericRepository<State>, IStateRepository
     {
-        public InvoiceRepository(AppDbContext _context) : base(_context)
+        public StateRepository(AppDbContext _context) : base(_context)
         {
             
         }

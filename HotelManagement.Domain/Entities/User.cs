@@ -5,7 +5,6 @@ namespace HotelManagement.Domain.Entities
 {
     public class User : IdentityUser
     {
-        //guestRelationship
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -13,10 +12,7 @@ namespace HotelManagement.Domain.Entities
         public string Address { get; set; }
         public string StateId { get; set; }
         public State State { get; set; }
-        public string UserId { get; set; }
-
-        public string CountryId { get; set; }
-        public Country Country { get; set; }
+        //public string UserId { get; set; }
         public ICollection<Booking> Bookings { get; set; }
         public List<Feedback> Feedbacks { get; set; }
     }

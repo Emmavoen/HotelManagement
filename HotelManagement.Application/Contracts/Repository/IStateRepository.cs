@@ -7,7 +7,7 @@ using HotelManagement.Domain.Entities;
 
 namespace HotelManagement.Application.Contracts.Repository
 {
-    public interface IRefundMethodRepository : IGenericRepository<RefundMethod>
+    public interface IStateRepository : IGenericRepository<State>
     {
         
     }

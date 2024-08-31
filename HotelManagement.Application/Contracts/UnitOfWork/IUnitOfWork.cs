@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using HotelManagement.Application.Contracts.Repository;
 
@@ -14,13 +12,13 @@ namespace HotelManagement.Application.Contracts.UnitOfWork
         IAmenityRepository AmenityRepository{ get; }
         IBookingRepository BookingRepository { get; }
         IFeedbackRepository FeedbackRepository{ get; }
-        IInvoinceRepository InvoinceRepository{ get; }
         IPaymentRepository PaymentRepository { get; }
         IRefundRepository RefundRepository{ get; }
-        IRefundMethodRepository RefundMethodRepository { get; }
         IRoomRepository RoomRepository  { get; }
         IRoomTypeRepository RoomTypeRepository{ get; }
-        IServiceRepository ServiceRepository{ get; }
+
+        IRoomAmenityRepository RoomAmenityRepository { get; }
+        //IStateRepository StateRepository { get; }
 
 
 

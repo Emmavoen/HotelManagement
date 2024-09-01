@@ -4,25 +4,38 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using HotelManagement.Application.Contracts.UnitOfWork;
+using HotelManagement.Application.Helpers;
 using MediatR;
 
 namespace HotelManagement.Application.Query.Room
 {
-    public class CheckRoomAvailabilityQuery : IRequest<bool>
+    public class CheckRoomAvailabilityQuery : IRequest<Result<List<AvailableRoomsResponse>>>
     {
-        internal readonly int roomId;
-        internal readonly DateTime checkInDate;
-        internal readonly DateTime checkOutDate;
+        
 
-        public CheckRoomAvailabilityQuery(int roomId, DateTime checkInDate, DateTime checkOutDate)
+        public List<AvailableRooms> Request { get; set; }
+        public CheckRoomAvailabilityQuery( List<AvailableRooms> request)
         {
-            this.roomId = roomId;
-            this.checkInDate = checkInDate;
-            this.checkOutDate = checkOutDate;
+            Request = request;
         }
     }
 
-    public class CheckRoomAvailabilityQueryHandler : IRequestHandler<CheckRoomAvailabilityQuery, bool>
+    public class AvailableRooms
+    {
+        public int RoomId { get; set; }
+        public DateTime CheckinDate { get; set;}
+        public DateTime CheckOutDate { get; set;}
+    }
+public class AvailableRoomsResponse
+    {
+        public int RoomNumber { get; set; }
+        public DateTime CheckinDate { get; set;}
+        public DateTime CheckOutDate { get; set;}
+
+        public string Message { get; set; }
+    }
+
+    public class CheckRoomAvailabilityQueryHandler : IRequestHandler<CheckRoomAvailabilityQuery, Result<List<AvailableRoomsResponse>>>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -30,14 +43,40 @@ namespace HotelManagement.Application.Query.Room
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<bool> Handle(CheckRoomAvailabilityQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<AvailableRoomsResponse>>> Handle(CheckRoomAvailabilityQuery request, 
+        CancellationToken cancellationToken)
         {
-            var conflictingBookings = await _unitOfWork.BookingRepository.GetAllByColumn(b => 
-            b.RoomId == request.roomId &&
-            b.CheckInDate < request.checkOutDate && 
-            b.CheckOutDate > request.checkInDate);
+            List<AvailableRoomsResponse>  resp = new List<AvailableRoomsResponse>();
+            foreach(var req in request.Request)
+            {
+                var conflictingBookings = await _unitOfWork.BookingRepository.GetAllByColumn(b => 
+                b.RoomId == req.RoomId &&
+                b.CheckInDate < req.CheckOutDate && 
+                b.CheckOutDate > req.CheckinDate); 
+                if(conflictingBookings.Any())
+                {
+                    resp.Add(new AvailableRoomsResponse
+                    {
+                        RoomNumber = 1,
+                        CheckinDate = req.CheckinDate,
+                        CheckOutDate = req.CheckOutDate,
+                        Message = "Room is not available."
+                    });
+                }
+                else
+                {
+                    resp.Add(new AvailableRoomsResponse
+                    {
+                        RoomNumber = 1,
+                        CheckinDate = req.CheckinDate,
+                        CheckOutDate = req.CheckOutDate,
+                        Message = "Room is available."
+                    });
+                }
+            }
+          return Result<List<AvailableRoomsResponse>>.SuccessResult(resp);
 
-            return !conflictingBookings.Any(); // returns true if no no conflicting booking
+            //return !conflictingBookings.Any(); // returns true if no no conflicting booking
         }
     }
 }

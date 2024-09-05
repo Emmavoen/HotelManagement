@@ -1,3 +1,4 @@
+using System.Reflection;
 using HotelManagement.Application.Contracts.Repository;
 using HotelManagement.Application.Contracts.UnitOfWork;
 using HotelManagement.Domain.Entities;
@@ -31,6 +32,7 @@ namespace HotelManagement.Persistence
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 
             return services;
         }

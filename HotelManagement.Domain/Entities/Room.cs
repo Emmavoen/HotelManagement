@@ -14,6 +14,6 @@ namespace HotelManagement.Domain.Entities
         public int RoomAmenityId { get; set; }
         public RoomAmenity RoomAmenity { get; set; } //Room Amenity
         public Booking Booking { get; set; }// is it possible
-        public List<string> Urls {get; set;}
+        //public List<string> Urls {get; set;}
     }
 }

@@ -1,10 +1,15 @@
+using System.Reflection;
 using System.Text;
+using HotelManagement.Application.Command.Booking;
 using HotelManagement.Application.Contracts.Services;
 using HotelManagement.Application.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using FluentValidation;
+
 
 namespace HotelManagement.Application
 {
@@ -13,6 +18,8 @@ namespace HotelManagement.Application
         public static IServiceCollection RegisterApplicationService(this IServiceCollection services, IConfiguration conn)
         {
             services.AddTransient<IUserService, UserService>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddValidatorsFromAssemblyContaining<BookingValidator>();
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

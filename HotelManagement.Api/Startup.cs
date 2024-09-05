@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using HotelManagement.Persistence;
 using HotelManagement.Application;
+using HotelManagement.Infrastructure;
 
 namespace HotelManagement.Api
 {
@@ -23,6 +24,7 @@ namespace HotelManagement.Api
         {
              services.RegisterPersistenceService(Configuration);
              services.RegisterApplicationService(Configuration);
+             services.RegisterInfrastructureService(Configuration);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

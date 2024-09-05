@@ -8,7 +8,7 @@ using PayPalCheckoutSdk.Orders;
 
 namespace HotelManagement.Infrastructure.ExternalServiceImplementation
 {
-    public class CreatePaymentQuery : IRequest<Order>
+    public class CreatePaymentQuery : IRequest<CreatePaymentResponse>
     {
         internal readonly decimal amount;
         internal readonly string currency;
@@ -20,7 +20,16 @@ namespace HotelManagement.Infrastructure.ExternalServiceImplementation
         }
     }
 
-    public class CreatePaymentQueryHandler : IRequestHandler<CreatePaymentQuery, Order>
+    public class CreatePaymentResponse
+    {
+        public string Time { get; set; }
+        public string Intent { get; set; }
+        public List<PurchaseUnit> PurchaseUnit { get; set; }
+        public string Status { get; set; }
+        public string Id { get; set; }
+    }
+
+    public class CreatePaymentQueryHandler : IRequestHandler<CreatePaymentQuery, CreatePaymentResponse>
     {
         private readonly PayPalHttpClient _client;
 
@@ -32,22 +41,22 @@ namespace HotelManagement.Infrastructure.ExternalServiceImplementation
 
             _client = new PayPalHttpClient(environment);
         }
-        public async Task<Order> Handle(CreatePaymentQuery request, CancellationToken cancellationToken)
+        public async Task<CreatePaymentResponse> Handle(CreatePaymentQuery request, CancellationToken cancellationToken)
         {
             var orderRequest = new OrderRequest()
             {
                 CheckoutPaymentIntent = "CAPTURE",
                 PurchaseUnits = new List<PurchaseUnitRequest>
-        {
-            new PurchaseUnitRequest
-            {
-                AmountWithBreakdown = new AmountWithBreakdown
                 {
-                    CurrencyCode = request.currency,
-                    Value = request.amount.ToString("F2")
+                    new PurchaseUnitRequest
+                    {
+                        AmountWithBreakdown = new AmountWithBreakdown
+                        {
+                            CurrencyCode = request.currency,
+                            Value = request.amount.ToString("F2")
+                        }
+                    }
                 }
-            }
-        }
             };
 
             var req = new OrdersCreateRequest();
@@ -57,7 +66,15 @@ namespace HotelManagement.Infrastructure.ExternalServiceImplementation
             var response = await _client.Execute(req);
             var order = response.Result<Order>();
 
-            return order;
+            var createPaymentResponse = new CreatePaymentResponse()
+            {
+                Time = order.CreateTime,
+                Intent = order.CheckoutPaymentIntent,
+                PurchaseUnit = order.PurchaseUnits,
+                Status = order.Status,
+                Id = order.Id
+            };
+            return createPaymentResponse;
         }
 
         public async Task<Order> CapturePayment(string orderId)

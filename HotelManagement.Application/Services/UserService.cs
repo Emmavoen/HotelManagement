@@ -20,7 +20,7 @@ namespace HotelManagement.Application.Services
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
 
-        public UserService(IUnitOfWork unitOfWork,RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IConfiguration configuration)
+        public UserService(IUnitOfWork unitOfWork, RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _roleManager = roleManager;
@@ -36,7 +36,7 @@ namespace HotelManagement.Application.Services
             }
 
             var addRole = await _roleManager.CreateAsync(new IdentityRole(role));
-            if(addRole.Succeeded)
+            if (addRole.Succeeded)
             {
                 return "Role added successfully";
             }
@@ -44,13 +44,13 @@ namespace HotelManagement.Application.Services
             return "Something went wrong";
         }
 
-        public async  Task<List<IdentityRole>> GetRoles()
+        public async Task<List<IdentityRole>> GetRoles()
         {
             var roles = await _roleManager.Roles.ToListAsync();
             return roles;
         }
 
-        
+
         public async Task<string> AddUser(RegisterUserDto userDto)
         {
 
@@ -59,9 +59,14 @@ namespace HotelManagement.Application.Services
                 Email = userDto.Email,
                 PhoneNumber = userDto.PhoneNumber,
                 UserName = userDto.UserName,
+                FirstName = userDto.FirstName,
+                LastName = userDto.LastName,
+                AgeGroup = userDto.AgeGroup,
+                Address = userDto.Address,
+                StateId = userDto.StateId,
             };
             var addUser = await _userManager.CreateAsync(newUser, userDto.Password);
-            if(addUser.Succeeded)
+            if (addUser.Succeeded)
             {
 
                 return "User Successfully Created";
@@ -73,17 +78,17 @@ namespace HotelManagement.Application.Services
         public async Task<string> AddRoleToUser(string userName, string role)
         {
             var user = await _userManager.FindByNameAsync(userName);
-            if(user == null)
+            if (user == null)
             {
                 return "Bad Request";
             }
-        var roleExist = await _roleManager.RoleExistsAsync(role);
-        if(!roleExist)
-        {
-            return "Role Doest exist";
-        }
+            var roleExist = await _roleManager.RoleExistsAsync(role);
+            if (!roleExist)
+            {
+                return "Role Doest exist";
+            }
             var addRole = await _userManager.AddToRoleAsync(user, role);
-            if(addRole.Succeeded)
+            if (addRole.Succeeded)
             {
                 return "Role Added Successfully";
             }
@@ -92,8 +97,8 @@ namespace HotelManagement.Application.Services
         }
         public async Task<IList<string>> GetUserRole(string userName)
         {
-             var user = await _userManager.FindByNameAsync(userName);
-            if(user == null)
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
             {
                 return new List<string>();
             }
@@ -103,13 +108,13 @@ namespace HotelManagement.Application.Services
 
         public async Task<string> RemoveUserRole(string userName, string role)
         {
-             var user = await _userManager.FindByNameAsync(userName);
-            if(user == null)
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
             {
                 return "Bad Request";
             }
             var removeUserRole = await _userManager.RemoveFromRoleAsync(user, role);
-            if(removeUserRole.Succeeded)
+            if (removeUserRole.Succeeded)
             {
                 return "Success";
             }
@@ -119,13 +124,13 @@ namespace HotelManagement.Application.Services
 
         public async Task<string> Login(string userName, string password)
         {
-            var user =  await _userManager.FindByNameAsync(userName);
-            if(user == null || !await _userManager.CheckPasswordAsync(user, password))
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null || !await _userManager.CheckPasswordAsync(user, password))
             {
                 return "Bad request";
             }
-            
-            var token =  await JWTGenerator.GetToken(_userManager,_configuration,user);
+
+            var token = await JWTGenerator.GetToken(_userManager, _configuration, user);
             var finalToken = new JwtSecurityTokenHandler().WriteToken(token);
             return finalToken;
         }
@@ -139,7 +144,7 @@ namespace HotelManagement.Application.Services
         public async Task<string> UpdateUser(UpdateUserDto requestDto)
         {
             var userExist = await _userManager.FindByIdAsync(requestDto.Id);
-            if(userExist == null)
+            if (userExist == null)
             {
                 return "Bad Request";
             }
@@ -148,9 +153,9 @@ namespace HotelManagement.Application.Services
             userExist.PhoneNumber = requestDto.PhoneNumber;
             userExist.UserName = requestDto.UserName;
 
-             _unitOfWork.UserRepository.UpdateASync(userExist);
+            _unitOfWork.UserRepository.UpdateASync(userExist);
             var save = await _unitOfWork.Save();
-            if(save > 0)
+            if (save > 0)
             {
                 return "Update Successfull";
             }
@@ -160,5 +165,5 @@ namespace HotelManagement.Application.Services
 
 
     }
-    
+
 }

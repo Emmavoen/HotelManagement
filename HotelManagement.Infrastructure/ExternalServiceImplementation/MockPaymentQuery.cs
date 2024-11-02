@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using HotelManagement.Application.Contracts.UnitOfWork;
 using HotelManagement.Application.Helpers;
 using HotelManagement.Domain.Entities;
+using HotelManagement.Domain.Enum;
 using MediatR;
 
 namespace HotelManagement.Infrastructure.ExternalServiceImplementation
@@ -36,10 +37,8 @@ namespace HotelManagement.Infrastructure.ExternalServiceImplementation
     public class MockPaymentRequest
     {
         public decimal Amount { get; set; }
-        public string PayerId { get; set; }
-
-        public string PayerEmail { get; set; }
-        public string PayerName { get; set; }
+        public PaymentMethod Method { get; set; }
+        public DateTime PaymentDate { get; set; }
     }
     public class MockPaymentHandler : IRequestHandler<MockPaymentQuery, Result<MockPaymentResponse>>
     {
@@ -51,20 +50,22 @@ namespace HotelManagement.Infrastructure.ExternalServiceImplementation
         }
         public async Task<Result<MockPaymentResponse>> Handle(MockPaymentQuery request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(request._request.PayerId))
-            {
-                request._request.PayerId = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 10);
-            }
+            // if (string.IsNullOrEmpty(request._request.PayerId))
+            // {
+            //     request._request.PayerId = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 10);
+            // }
 
-            if (string.IsNullOrEmpty(request._request.PayerEmail))
-            {
-                request._request.PayerEmail = $"{request._request.PayerId}@example.com";
-            }
+            // if (string.IsNullOrEmpty(request._request.PayerEmail))
+            // {
+            //     request._request.PayerEmail = $"{request._request.PayerId}@example.com";
+            // }
 
-            if (string.IsNullOrEmpty(request._request.PayerName))
-            {
-                request._request.PayerName = "John Doe";
-            }
+            // if (string.IsNullOrEmpty(request._request.PayerName))
+            // {
+            //     request._request.PayerName = "John Doe";
+            // }
+
+            if(request.)
 
             var payment = new Payment()
             {

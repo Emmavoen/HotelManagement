@@ -1,0 +1,48 @@
+// #container {
+//     display: flex;
+//     width: 100%;
+//     height: 100vh;
+//     font-family: Arial, Helvetica, sans-serif;
+    
+  
+//     #contentcontainer {
+//       flex-grow: 1;
+//       margin-left: -200px;
+//       transition: margin-left 0.3s ease-in-out;
+//     }
+  
+//     &.sidebarActive #contentcontainer {
+//       margin-left: 0;
+//     }
+//   }
+#container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden; // Prevents overflow issues with sliding sidebar
+
+  // Sidebar container
+  app-sidenav {
+    width: 200px;
+    flex-shrink: 0; // Keeps sidebar width fixed
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%); // Hidden by default
+  }
+
+  // Sidebar is shown when `sidebarActive` is true
+  &.sidebarActive app-sidenav {
+    transform: translateX(0);
+  }
+
+  #contentcontainer {
+    flex-grow: 1;
+    transition: margin-left 0.3s ease-in-out;
+    margin-left: -200px; // Aligns content to the left when sidebar is hidden
+  }
+
+  // Adjusts margin when sidebar is visible
+  &.sidebarActive #contentcontainer {
+    margin-left: 0;
+  }
+}

@@ -23,6 +23,7 @@ namespace HotelManagement.Api.Controllers
         return result.statusCode switch
         {
             System.Net.HttpStatusCode.OK => Ok(result),
+            System.Net.HttpStatusCode.Created => Ok(result),
             System.Net.HttpStatusCode.BadRequest => BadRequest(result),
             System.Net.HttpStatusCode.Unauthorized => Unauthorized(result),
             System.Net.HttpStatusCode.NotFound => NotFound(result),

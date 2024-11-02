@@ -19,7 +19,7 @@ namespace HotelManagement.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("SendBookingEMail")]
+        [HttpPost("send-booking-email")]
         public async Task<IActionResult> SendMail(EmailRequest request)
         => HandleResponse(await _mediator.Send(new SendEmailCommand(request)));
     }

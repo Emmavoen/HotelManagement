@@ -12,9 +12,9 @@ namespace HotelManagement.Application.Command.Amenity
     public class ActivateDeactivateAmenity : IRequest<Result<ActivateDeactivateAmenityRequestDto>>
     {
         public int AmenityId { get; }
-        public bool IsActive { get; }
+        public string IsActive { get; }
 
-        public ActivateDeactivateAmenity(int amenityId, bool isActive)
+        public ActivateDeactivateAmenity(int amenityId, string isActive)
         {
             AmenityId = amenityId;
             IsActive = isActive;
@@ -62,6 +62,6 @@ namespace HotelManagement.Application.Command.Amenity
     public class ActivateDeactivateAmenityRequestDto
     {
         public int AmenityId { get; set; }
-        public bool IsActive { get; set; }
+        public string IsActive { get; set; }
     }
 }

@@ -1,0 +1,55 @@
+// #sidebar {
+//     width: 200px;
+//     height: 100%;
+//     background-color: red;
+//     transform: translateX(-100%);
+//     transition: transform 0.3s ease-in-out;
+
+//     &.sidebarActive {
+//         transform: translateX(0);
+// }
+// a {
+//     color: #fff;
+//     text-decoration: none;
+//     font-size: 18px;
+//     display: block;
+//     margin: 10px 0;
+//   }
+// }
+#sidebar {
+  width: 200px;
+  height: 100%;
+  background: black;
+  color: #fff; // Ensures text is visible
+  padding: 20px;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  display: block;
+  margin: 10px 0;
+}
+
+// span {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   gap: 1;
+  
+// }
+
+span {
+  display: grid;
+  grid-template-columns: 40px 1fr; /* Fixed width for icons, flexible width for text */
+  align-items: center;
+  padding: 10px 0;
+}
+
+// mat-icon {
+//   margin-right: 10px;
+// }
+mat-icon {
+  justify-self: center; /* Centers the icon within its grid cell */
+}

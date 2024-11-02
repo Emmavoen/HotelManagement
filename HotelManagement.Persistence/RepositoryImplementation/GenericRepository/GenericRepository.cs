@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using HotelManagement.Application.Contracts.GenericRepository;
 using HotelManagement.Persistence.DataBaseContext;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace HotelManagement.Persistence.RepositoryImplementation.GenericRepository
 {
-    public class GenericRepository<T>  : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly AppDbContext _context;
         protected DbSet<T> _dbSet;
@@ -19,7 +20,7 @@ namespace HotelManagement.Persistence.RepositoryImplementation.GenericRepository
             _dbSet = _context.Set<T>();
         }
 
-         public async Task<T> AddAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
             var result = await _dbSet.AddAsync(entity);
             return result.Entity;
@@ -34,7 +35,7 @@ namespace HotelManagement.Persistence.RepositoryImplementation.GenericRepository
         public async Task<IEnumerable<T>> GetAll()
         {
             var result = await _dbSet.ToListAsync();
-           // await appDbContext.SaveChangesAsync();
+            // await appDbContext.SaveChangesAsync();
             return result;
         }
 
@@ -48,10 +49,28 @@ namespace HotelManagement.Persistence.RepositoryImplementation.GenericRepository
             return await _dbSet.FirstOrDefaultAsync(predicate);
         }
 
-        public  void UpdateASync(T entity)
+        public void UpdateASync(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
 
+        }
+        public async Task<IEnumerable<T>> GetWhereAndIncludeAsync(
+        Expression<Func<T, bool>> filter,
+        Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            return await query.ToListAsync();
         }
     }
 }

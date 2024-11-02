@@ -66,14 +66,14 @@ namespace HotelManagement.Application.Command.Amenity
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool IsActive { get; set; }
-        public int RoomAmenitiesId { get; set; }
+        public string IsActive { get; set; }
+        public int? RoomAmenitiesId { get; set; }
     }
     public class UpdateAmenityRequestDto
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool IsActive { get; set; }
+        public string IsActive { get; set; }
         public int RoomAmenitiesId { get; set; }
     }
 

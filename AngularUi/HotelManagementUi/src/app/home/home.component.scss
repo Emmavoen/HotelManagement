@@ -1,0 +1,72 @@
+
+// .container {
+//     background-image: url('https://cdn.britannica.com/96/115096-050-5AFDAF5D/Bellagio-Hotel-Casino-Las-Vegas.jpg');
+//     background-size: cover; /* Ensures the image covers the entire viewport */
+//     background-repeat: no-repeat; /* Prevents tiling */
+//     background-attachment: fixed; /* Keeps background fixed during scroll */
+//     background-position: center center; /* Centers the image */
+//     margin: 0;
+//     padding: 0;
+//     height: 100vh; /* Makes sure it covers the viewport height */
+//     width: 100%;
+//     box-sizing: border-box;
+// }
+
+// .text {
+//     color: white;
+//     padding: 20px;
+//     max-width: 600px;
+//     margin: 0 auto;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+// }
+
+
+.Hero-Container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* added background overlay */
+  }
+  
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  
+  .hero-content {
+    text-align: center;
+    color: #fff; /* changed to white */
+    z-index: 1; /* added z-index */
+    
+    /* added typography styles */
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    
+    /* added responsive typography */
+    font-size: calc(1.2rem + 1vw);
+  }
+  
+  .hero-content h1 {
+    font-size: calc(2.5rem + 2vw); /* larger font size */
+    margin-bottom: 1rem;
+    padding-bottom: 20px;
+  }
+  
+  .hero-content p {
+    font-size: calc(1.5rem + 1vw);
+    margin-bottom: 2rem;
+  }
+  
+  .example-button {
+    padding: 1.5rem 3rem;
+    font-size: 1.5rem;
+  }

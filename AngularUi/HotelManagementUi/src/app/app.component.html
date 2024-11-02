@@ -1,0 +1,9 @@
+<!-- <button mat-button>Hello World</button> -->
+<div id="container" [ngClass]="{ sidebarActive: sidebarActive }">
+    <app-sidenav [ngClass]="{ sidebarActive: sidebarActive }" [sidebarActive]="sidebarActive"></app-sidenav>
+    <div id="contentcontainer">
+      <app-navbar  (sidebarToggle)="handleSidebarToggle($event)"></app-navbar>
+      <app-home></app-home>
+    </div>
+  </div>
+  

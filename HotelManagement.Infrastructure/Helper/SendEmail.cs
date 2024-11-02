@@ -24,7 +24,7 @@ namespace HotelManagement.Infrastructure.Helper
     }
     public class EmailRequest
     {
-         public string UserEmail { get; set; }
+        public string UserEmail { get; set; }
         public string Subject { get; set; }
         public int BookingId { get; set; }
 
@@ -49,6 +49,10 @@ namespace HotelManagement.Infrastructure.Helper
         public async Task<Result<string>> Handle(SendEmailCommand request, CancellationToken cancellationToken)
         {
             var booking = await _unitOfWork.BookingRepository.GetByColumnAsync(x => x.Id == request.request.BookingId);
+            if (booking == null)
+            {
+                return Result<string>.NotFound("Booking not found.");
+            }
 
             var httpclient = _httpClientFactory.CreateClient();
             var emailMessage = new EmailMessage
@@ -91,7 +95,7 @@ namespace HotelManagement.Infrastructure.Helper
             .Replace("{CheckOutDate}", booking.CheckOutDate.ToString("MMMM dd, yyyy"))
             .Replace("{NumberOfOcupant}", booking.NumberOfOcupant.ToString())
             .Replace("{RoomId}", booking.RoomId.ToString());
-             
+
 
             var sendEmail = await httpclient.PostAsJsonAsync("https://localhost:7168/api/Notification", emailMessage);
 

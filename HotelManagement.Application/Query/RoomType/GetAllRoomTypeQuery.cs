@@ -30,6 +30,7 @@ namespace HotelManagement.Application.Query.RoomType
             var roomTypeDto = roomType.Select
             (p => new RoomTypeResponseDto
             {
+                Id = p.Id,
                 TypeName = p.TypeName,
                 Description = p.Description,
                 AccessibilityFeatures = p.AccessibilityFeatures,

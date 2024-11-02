@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using HotelManagement.Persistence;
 using HotelManagement.Application;
 using HotelManagement.Infrastructure;
+using Serilog;
 
 namespace HotelManagement.Api
 {
@@ -26,6 +27,7 @@ namespace HotelManagement.Api
              services.RegisterApplicationService(Configuration);
              services.RegisterInfrastructureService(Configuration);
             services.AddControllers();
+            services.AddSingleton(Log.Logger);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelManagement.Api", Version = "v1" });

@@ -19,6 +19,7 @@ namespace HotelManagement.Application
         {
             services.AddTransient<IUserService, UserService>();
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddHostedService<BookingReminderWorker>();
             services.AddValidatorsFromAssemblyContaining<BookingValidator>();
             services.AddAuthentication(options =>
             {

@@ -28,7 +28,7 @@ namespace HotelManagement.Persistence.Configuration
             .IsRequired()
             .HasMaxLength(50);
 
-            builder.Property(r => r.status)
+            builder.Property(r => r.Status)
             .IsRequired()
             .HasMaxLength(50);
 

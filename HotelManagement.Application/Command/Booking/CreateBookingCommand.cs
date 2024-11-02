@@ -94,7 +94,7 @@ namespace HotelManagement.Application.Command.Booking
             }
             var booking = new Domain.Entities.Booking()
             {
-                BookingDate = request.requestDto.BookingDate,
+                BookingDate = DateTime.Now,
                 CheckInDate = request.requestDto.CheckInDate,
                 CheckOutDate = request.requestDto.CheckOutDate,
                 NumberOfOcupant = request.requestDto.NumberOfOcupant,
@@ -102,6 +102,14 @@ namespace HotelManagement.Application.Command.Booking
                 RoomId = request.requestDto.RoomId,
                 PaymentId = request.requestDto.PaymentId,
             };
+
+            await _unitOfWork.BookingRepository.AddAsync(booking);
+            var save =  await _unitOfWork.Save();
+
+            if(save < 1)
+            {
+                return Result<BookingResponse>.InternalServerError();           
+            }
 
             var response = new BookingResponse
             {

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Microsoft.VisualBasic;
 
 namespace HotelManagement.Domain.Entities
 {
@@ -7,8 +9,8 @@ namespace HotelManagement.Domain.Entities
         public int Id { get; set; }
         public string RoomNumber { get; set; }
         public decimal Price { get; set; }
-        public string status { get; set; }
-        public string DateCreated { get; set; }
+        public string Status { get; set; }
+        public DateTime DateCreated { get; set; }
         public int RoomTypeId { get; set; }
         public RoomType RoomType { get; set; }
         public int RoomAmenityId { get; set; }

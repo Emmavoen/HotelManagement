@@ -7,6 +7,7 @@ using HotelManagement.Application.Dtos.Request;
 using HotelManagement.Application.Query.Booking;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace HotelManagement.Api.Controllers
 {
@@ -15,10 +16,12 @@ namespace HotelManagement.Api.Controllers
     public class BookingController : BaseController
     {
         private readonly IMediator _mediator;
+        private readonly ILogger _logger;
 
-        public BookingController(IMediator mediator) : base(mediator)
+        public BookingController(IMediator mediator, ILogger logger) : base(mediator)
         {
             _mediator = mediator;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -27,8 +30,12 @@ namespace HotelManagement.Api.Controllers
         => HandleResponse(await Mediator.Send(new CheckBookingAvailabilityQuery(availableRooms)));
 
         [HttpPut]
-        [Route("CheckBookingAvailability")]
+        [Route("CreateBooking")]
         public async Task<IActionResult> CreateBooking(BookingRequestDto requestDto) 
-        => HandleResponse(await Mediator.Send(new CreateBookingCommand(requestDto)));
+        {
+        
+            _logger.Information("something about serilog.......");
+            return HandleResponse(await Mediator.Send(new CreateBookingCommand(requestDto)));
+        }
     }
 }
